@@ -57,5 +57,5 @@
     "n_heads": 2,
     "dropout_rate": 0,
     "feature_num": 5,
-    "num_buckets": 128,
+    "num_buckets": 128
 }
