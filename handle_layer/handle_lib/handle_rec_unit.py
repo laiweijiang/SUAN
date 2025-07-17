@@ -119,7 +119,7 @@ class MultiHeadSelfAttention(object):
             v = tf.transpose(tf.reshape(v, [-1, n, h, dh]), [0, 2, 1, 3])
 
             attn = tf.matmul(q, k)
-            dk = tf.cast(tf.shape(k)[-1], tf.float32)
+            dk = tf.cast(tf.shape(k)[-2], tf.float32)
             attn = attn / tf.math.sqrt(dk)
 
             ts_rab = tf.expand_dims(ts_encoder.relative_attention_bias(ts), axis=1)
