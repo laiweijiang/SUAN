@@ -4,9 +4,10 @@
 > 🔗 [Paper (RecSys '25)](https://doi.org/10.1145/3705328.3748046) | 💻 [Code](https://github.com/laiweijiang/SUAN)
 
 ## 🧱 Model Architecture
-<img width="1280" height="548" alt="image" src="https://github.com/user-attachments/assets/c7b8d2cb-e8b3-4310-846a-ff45a478054f" />
 
 ### SUAN (Stacked UABs)
+<img width="1280" height="548" alt="image" src="https://github.com/user-attachments/assets/c7b8d2cb-e8b3-4310-846a-ff45a478054f" />
+
 Each **Unified Attention Block (UAB)** contains:
 - **Self-Attention**: Spatiotemporal behavior modeling
 - **Cross-Attention**: User profile-guided importance scoring  
