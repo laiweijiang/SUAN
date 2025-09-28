@@ -43,14 +43,11 @@
     "xla": 0,
     "pass_size": 20,
 
-
-
-    "Core_comment": "Core Config",
+ "-----------------------------------------------------------Core Config---------------------------------------------------------------------------------": "-",
     "seq_len": 50,
     "embed_dim": 8,
     "n_layers": 2,
     "n_heads": 2,
-    "dropout_rate": 0,
     "feature_num": 5,
     "num_buckets": 128
 }

@@ -173,7 +173,7 @@ class MultiHeadCrossAttention(object):
             return attn_out1
 
 class SUAN_Block(object):
-    def __init__(self, d_model, head, droupout_rate, variable_scope):
+    def __init__(self, d_model, head, variable_scope):
         super(SUAN_Block, self).__init__()
         self.attention1 = MultiHeadSelfAttention(d_model, head, variable_scope+"_selfAttention")
         self.cross_attention = MultiHeadCrossAttention(d_model, head, variable_scope + "_crossAttention")
@@ -183,9 +183,7 @@ class SUAN_Block(object):
         self.norm2 = RMSNorm(1e-6, variable_scope + "_norm_2")
         self.norm3 = RMSNorm(1e-6, variable_scope + "_norm_3")
 
-        self.dropout1 = tf.keras.layers.Dropout(droupout_rate)
-        self.dropout2 = tf.keras.layers.Dropout(droupout_rate)
-        self.dropout3 = tf.keras.layers.Dropout(droupout_rate)
+
 
         self.variable_scope = variable_scope
 
@@ -206,17 +204,14 @@ class SUAN_Block(object):
         x = self.norm1(x)
         # selfAttention
         x_output = self.attention1(x, mask, ts, ts_encoder)
-        x_output = self.dropout1(x_output, training=training)
         x = self.norm2(x_output + x)
         # crossAttention
 
         cross_x1 = self.cross_attention(x, userseq)
         x_cross = self.MS_SeNet(x, cross_x1, self.variable_scope + "x")
-        x_cross = self.dropout2(x_cross, training=training)
         x = self.norm3(x_cross + x)
         # ffn
         ffn_x_output = self.ffn1(x)
-        ffn_x_output = self.dropout3(ffn_x_output, training=training)
         ffn_x_output = ffn_x_output + x
 
         return ffn_x_output, userseq
@@ -229,7 +224,6 @@ class Mix1k_SUAN(InputBase):
         self.seq_len = self.params['seq_len']
         self.n_layers = self.params['n_layers']
         self.n_heads = self.params['n_heads']
-        self.dropout_rate = self.params['dropout_rate']
         self.num_buckets = self.params['num_buckets']
         self.feature_num = self.params['feature_num']
 
@@ -270,7 +264,7 @@ class Mix1k_SUAN(InputBase):
 
 
         self.transformer_blocks1 = [
-            SUAN_Block(self.d_model * self.feature_num, self.n_heads, self.dropout_rate, "GenRecTransformerBlock2_{}".format(i)) for i in
+            SUAN_Block(self.d_model * self.feature_num, self.n_heads, "GenRecTransformerBlock2_{}".format(i)) for i in
             range(self.n_layers)]
 
 
@@ -382,7 +376,6 @@ class Eleme_SUAN(InputBase):
         self.seq_len = self.params['seq_len']
         self.n_layers = self.params['n_layers']
         self.n_heads = self.params['n_heads']
-        self.dropout_rate = self.params['dropout_rate']
         self.num_buckets = self.params['num_buckets']
         self.feature_num = self.params['feature_num']
 
@@ -582,7 +575,7 @@ class Eleme_SUAN(InputBase):
 
 
         self.transformer_blocks1 = [
-            SUAN_Block(self.d_model * self.feature_num, self.n_heads, self.dropout_rate, "GenRecTransformerBlock2_{}".format(i)) for i in
+            SUAN_Block(self.d_model * self.feature_num, self.n_heads, "GenRecTransformerBlock2_{}".format(i)) for i in
             range(self.n_layers)]
         self.pos = tf.Variable(tf.random.normal([self.seq_len + 1, self.d_model * self.feature_num], mean=0, stddev=0.02), name="_pos")
 

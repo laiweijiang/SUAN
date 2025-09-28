@@ -48,14 +48,11 @@
     "target_context_dense_feat_num": 300,
 
 
-
-
-    "Core_comment": "Core Config",
+ "-----------------------------------------------------------Core Config---------------------------------------------------------------------------------": "-",
     "seq_len": 100,
     "embed_dim": 8,
     "n_layers": 2,
     "n_heads": 2,
-    "dropout_rate": 0,
     "feature_num": 5,
     "num_buckets": 128
 }
